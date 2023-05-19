@@ -7,7 +7,7 @@ import requests
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
     return f"""
             <p><a href='{url_for('get_requirements')}'>REQUIREMENTS. Installed Modules</a></p>
@@ -17,7 +17,7 @@ def index():
 """
 
 
-@app.route("/requirements/")
+@app.route("/requirements/", methods=["GET"])
 def get_requirements():
     req = list()
     with open("requirements.txt", "r") as rf:
@@ -27,8 +27,8 @@ def get_requirements():
     return f"<h1>Installed Modules</h1>{'<br>'.join([x for x in req])}"
 
 
-@app.route("/generate-users/")
-@app.route("/generate-users/<int:count>")
+@app.route("/generate-users/", methods=["GET"])
+@app.route("/generate-users/<int:count>", methods=["GET"])
 def generate_users(count: int = 100):
     fake = Faker()
     data_dict = dict()
@@ -42,7 +42,7 @@ def generate_users(count: int = 100):
     return f"<h1>Random Users</h1>{output_users_data}"
 
 
-@app.route("/mean/")
+@app.route("/mean/", methods=["GET"])
 def average_height_weight():
     hw_data = "hw.csv"
     height_data: list[float] = []
@@ -61,7 +61,7 @@ def average_height_weight():
     return f"Average height is - {average_height_cm}cm<br>Average weight is - {average_weight_kg}kg"
 
 
-@app.route("/space/")
+@app.route("/space/", methods=["GET"])
 def get_curr_spacemen():
     resp = requests.get("http://api.open-notify.org/astros.json")
     try:
